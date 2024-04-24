@@ -24,7 +24,7 @@ namespace Tasks.API.Repositories.Implementation
         public async Task<List<Duty>> UserDuties(DutyRequestDTO duty)
         {
             List<Duty> duties = new List<Duty>();
-            var tareitas = await dbContext.Duties.Where(p => p.user == duty.user).ToListAsync();
+            var tareitas = await dbContext.Duties.Where(p => p.email == duty.email).ToListAsync();
             foreach(var element in tareitas)
             {
                 duties.Add(element);

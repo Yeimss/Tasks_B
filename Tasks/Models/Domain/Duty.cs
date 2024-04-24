@@ -9,6 +9,6 @@ namespace Tasks.Models.Domain
         public string detail { get; set; }
         public DateTime dueDate { get; set; }
         public bool isCompleted { get; set; }
-        public IdentityUser user { get; set; }
+        public string email { get; set; }
     }
 }

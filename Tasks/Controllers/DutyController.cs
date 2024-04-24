@@ -31,7 +31,7 @@ namespace Tasks.API.Controllers
                 detail = request.detail, 
                 dueDate = request.dueDate,
                 isCompleted = request.isCompleted,
-                user = request.user,
+                email = request.email,
             };
             await dutyRepository.CreateDuty(duty);
             return Ok(duty);

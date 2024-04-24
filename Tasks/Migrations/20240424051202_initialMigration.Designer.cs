@@ -12,8 +12,8 @@ using Tasks.Data;
 namespace Tasks.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240423075437_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20240424051202_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -236,6 +236,10 @@ namespace Tasks.API.Migrations
                     b.Property<DateTime>("dueDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("isCompleted")
                         .HasColumnType("bit");
 
@@ -243,12 +247,7 @@ namespace Tasks.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("id");
-
-                    b.HasIndex("userId");
 
                     b.ToTable("Duties");
                 });
@@ -302,15 +301,6 @@ namespace Tasks.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Tasks.Models.Domain.Duty", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "user")
-                        .WithMany()
-                        .HasForeignKey("userId");
-
-                    b.Navigation("user");
                 });
 #pragma warning restore 612, 618
         }

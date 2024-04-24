@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Tasks.API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class initialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,22 @@ namespace Tasks.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Duties",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    detail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    dueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    isCompleted = table.Column<bool>(type: "bit", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Duties", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,27 +172,6 @@ namespace Tasks.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Duties",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    detail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    dueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    isCompleted = table.Column<bool>(type: "bit", nullable: false),
-                    userId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Duties", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Duties_AspNetUsers_userId",
-                        column: x => x.userId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -215,11 +210,6 @@ namespace Tasks.API.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Duties_userId",
-                table: "Duties",
-                column: "userId");
         }
 
         /// <inheritdoc />
