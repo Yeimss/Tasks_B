@@ -39,7 +39,7 @@ namespace Tasks.API.Controllers
         [HttpPost]
         [Route("userDuties")]
         public async Task<IActionResult> UserDuties(DutyRequestDTO request) //Consultar todas las tareas de un usuario
-        {
+        {   
             return Ok(dutyRepository.UserDuties(request));
         }
 
@@ -48,7 +48,7 @@ namespace Tasks.API.Controllers
         public async Task<IActionResult> UpdateDuty(Duty request)
         {
             DutyResponseDTO response = new DutyResponseDTO();
-            response = await dutyRepository.DeleteDuty(request);
+            response = await dutyRepository.UpdateDuty(request);
 
             if (response.statusOperation)
             {
@@ -62,10 +62,10 @@ namespace Tasks.API.Controllers
 
         [HttpDelete]
         [Route("deleteDuty")]
-        public async Task<IActionResult> DeleteDuty(Duty request) //Eliminar un registro de la tabla Duties
+        public async Task<IActionResult> DeleteDuty(Guid id) //Eliminar un registro de la tabla Duties
         {
             DutyResponseDTO response = new DutyResponseDTO();
-            response = await dutyRepository.DeleteDuty(request);
+            response = await dutyRepository.DeleteDuty(id);
             if (response.statusOperation)
             {
                 return Ok(response);

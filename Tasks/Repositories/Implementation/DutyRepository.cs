@@ -21,13 +21,16 @@ namespace Tasks.API.Repositories.Implementation
             return duty;
         }
 
-        public async Task<List<Duty>> UserDuties(DutyRequestDTO duty)
+        public List<Duty> UserDuties(DutyRequestDTO duty)
         {
-            List<Duty> duties = new List<Duty>();
-            var tareitas = await dbContext.Duties.Where(p => p.email == duty.email).ToListAsync();
-            foreach(var element in tareitas)
+            List<Duty> duties = new List<Duty>() {};
+            var tareitas = dbContext.Duties.Where(p => p.email == duty.email).ToListAsync();
+            if(tareitas.Result.Count != 0)
             {
-                duties.Add(element);
+                foreach(var element in tareitas.Result)
+                {
+                    duties.Add(element);
+                }
             }
             return duties;
         }
@@ -55,15 +58,17 @@ namespace Tasks.API.Repositories.Implementation
             }
         }
 
-        public async Task<DutyResponseDTO> DeleteDuty(Duty request)
+        public async Task<DutyResponseDTO> DeleteDuty(Guid id)
         {
-            DutyResponseDTO response = new DutyResponseDTO(request.title,"No se encontró la tarea","Eliminar",false);
+            DutyResponseDTO response = new DutyResponseDTO("","No se encontró la tarea","Eliminar",false);
 
-            var task = await dbContext.Duties.FindAsync(request.id);
+            var task = await dbContext.Duties.FindAsync(id);
             if (task != null)
             {
-                dbContext.Duties.Remove(request);
+                response.title = task.title;
+                dbContext.Duties.Remove(task);
                 await dbContext.SaveChangesAsync();
+                
                 response.message = "Se eliminó con éxito";
                 response.statusOperation = true;
                 return response;
